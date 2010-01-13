@@ -93,9 +93,9 @@ namespace :server_setup do
     [ "sudo apt-get install ruby ruby1.8-dev irb ri rdoc libopenssl-ruby1.8 -y",
       "mkdir -p src",
       "cd src",
-      "wget http://rubyforge.org/frs/download.php/45905/rubygems-1.3.1.tgz",
-      "tar xzvf rubygems-1.3.1.tgz",
-      "cd rubygems-1.3.1/ && sudo ruby setup.rb",
+      "wget http://rubyforge.org/frs/download.php/60718/rubygems-1.3.5.tgz",
+      "tar xzvf rubygems-1.3.5.tgz",
+      "cd rubygems-1.3.5/ && sudo ruby setup.rb",
       "sudo ln -s /usr/bin/gem1.8 /usr/bin/gem",
       "sudo gem update --system",
       "sudo gem install rails --no-ri --no-rdoc"
@@ -134,9 +134,12 @@ namespace :server_setup do
 
   desc "Configure Passenger"
   task :config_passenger do
+    
+    passenger_version = `gem search passenger`.scan(/(?:\(|, *)([^,)]*)/).flatten.first    
+    
     passenger_config =<<-EOF
-LoadModule passenger_module /usr/lib/ruby/gems/1.8/gems/passenger-2.0.6/ext/apache2/mod_passenger.so
-PassengerRoot /usr/lib/ruby/gems/1.8/gems/passenger-2.0.6
+LoadModule passenger_module /usr/lib/ruby/gems/1.8/gems/passenger-#{passenger_version}/ext/apache2/mod_passenger.so
+PassengerRoot /usr/lib/ruby/gems/1.8/gems/passenger-#{passenger_version}
 PassengerRuby /usr/bin/ruby1.8    
     EOF
     put passenger_config, "src/passenger"
