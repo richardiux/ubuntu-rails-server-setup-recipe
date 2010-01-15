@@ -46,6 +46,7 @@ namespace :server_setup do
     install_dev_tools
     install_git
     install_sqlite3
+    install_sphinx
     install_rails_stack
     install_apache
     install_passenger
@@ -86,6 +87,16 @@ namespace :server_setup do
   desc "Install SQLite3"
   task :install_sqlite3 do
     sudo "apt-get install sqlite3 libsqlite3-ruby -y"
+  end
+  
+  task :install_sphinx do
+    run  "cd ~/src"
+    run  "wget http://www.sphinxsearch.com/downloads/sphinx-0.9.9.tar.gz"
+    run  "tar xzvf sphinx-0.9.9.tar.gz"
+    run  "cd sphinx-0.9.9"
+    run  "./configure"
+    run  "make"
+    sudo "make install"
   end
 
   desc "Install Ruby, Gems, and Rails"
