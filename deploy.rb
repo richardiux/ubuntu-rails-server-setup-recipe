@@ -47,6 +47,7 @@ namespace :server_setup do
     install_git
     install_sqlite3
     install_sphinx
+    install_prince
     install_rails_stack
     install_apache
     install_passenger
@@ -97,6 +98,14 @@ namespace :server_setup do
     run  "./configure"
     run  "make"
     sudo "make install"
+  end
+  
+  task :install_prince do
+    run  "cd ~/src"
+    run  "wget http://www.princexml.com/download/prince-7.0-ubuntu904-static.tar.gz"
+    run  "tar xzvf prince-7.0-ubuntu904-static.tar.gz"
+    run  "sudo ./install.sh\n"
+    # need to press enter to set default directory
   end
 
   desc "Install Ruby, Gems, and Rails"
